@@ -1,6 +1,6 @@
 ## Cambios realizados por Marce
 
-### Punto uno - hacer el proyectil y los balones más rápidos
+### Punto uno y dos
 
 Se ha implementado una nueva velocidad para los proyectiles:
 
