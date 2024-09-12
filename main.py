@@ -36,7 +36,7 @@ def tap(x, y):
     """Update mark and hidden tiles based on tap."""
     spot = index(x, y)
     mark = state['mark']
-    state['taps'] += 1  # Increment the tap counter
+    state['taps'] += 1  # Incrementar el tap counter
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot
