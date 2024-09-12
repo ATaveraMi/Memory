@@ -18,6 +18,7 @@ car = path('car.gif')
 tiles = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')[:32] * 2 #Cambiar a letras
 state = {'mark': None}
 hide = [True] * 64
+taps = 0
 
 
 def square(x, y):
@@ -42,11 +43,20 @@ def xy(count):
     """Convert tiles count to (x, y) coordinates."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
-
+def all_revealed():
+    """Return True if all tiles are revealed."""
+    return all(not hidden for hidden in hide)
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
     spot = index(x, y)
     mark = state['mark']
+    global taps 
+    
+    taps += 1
+    
+    goto(0,200)
+    ontimer(write(f"Taps: {taps}", align= "right",font=('Arial', 30, 'normal')), 1000) # desplegar por un segundo
+    goto(x,y)
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot
@@ -62,6 +72,7 @@ def draw():
     goto(0, 0)
     shape(car)
     stamp()
+    
 
     for count in range(64):
         if hide[count]:
@@ -69,6 +80,7 @@ def draw():
             square(x, y)
 
     mark = state['mark']
+    
 
     if mark is not None and hide[mark]:
         x, y = xy(mark)
@@ -80,6 +92,13 @@ def draw():
 
     update()
     ontimer(draw, 100)
+    
+    if all_revealed():  # Checa si todas las tiles se revelaron
+        goto(0, -220)
+        color('black')
+        write("All tiles revealed!", align='center', font=('Arial', 30, 'bold'))
+       
+
 
 
 shuffle(tiles)
